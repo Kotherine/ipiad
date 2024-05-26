@@ -1,109 +1,52 @@
 package org.example;
 
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-
+/*
+ * The main class of the application.
+ */
 public class Main {
 
+    /*
+     * Logger instance for logging application events.
+     */
+    private static final Logger logger = LogManager.getLogger(Main.class);
+
+    /*
+     * The entry point of the application.
+     */
     public static void main(String[] args) {
+        ElasticSearchUtil dbConnector = null;
+
         try {
-            // Создание клиента Elasticsearch
-            RestHighLevelClient elasticsearchClient = new RestHighLevelClient(
-                    RestClient.builder(new HttpHost("localhost", 9200, "http"))
-            );
+            // Creating a connector instance for Elasticsearch and initializing it with the logger.
+            dbConnector = new ElasticSearchUtil(logger);
 
-            // Создание индекса Elasticsearch
-            ElasticSearchUtil.createIndex(elasticsearchClient);
+            // Starting the worker thread.
+            try {
+                CrawlerWorker.main(args);
+            } catch (Exception e) {
+                // Handling any exceptions that occur in the worker thread.
+                logger.error("Error in worker thread: " + e.getMessage(), e);
+            }
 
-            // Запуск задачи по получению и сохранению ссылок
-            CrawlerTaskProducer.main(args);
+            // Starting the consumer thread.
+            try {
+                CrawlerConsumer.main(args);
+            } catch (Exception e) {
+                // Handling any exceptions that occur in the consumer thread.
+                logger.error("Error in consumer thread: " + e.getMessage(), e);
+            }
 
-            // Запускаем worker для обработки задач в отдельном потоке
-            Thread workerThread = new Thread(() -> {
-                try {
-                    CrawlerWorker.main(args);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            workerThread.start();
-
-            // Запускаем consumer для обработки результатов в отдельном потоке
-            Thread resultThread = new Thread(() -> {
-                try {
-                    CrawlerConsumer.main(args);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            resultThread.start();
-
-            // Закрытие клиента Elasticsearch
-            elasticsearchClient.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            // Handling any exceptions that occur in the main thread.
+            logger.error("Error in main: " + e.getMessage(), e);
+        } finally {
+            // Closing the Elasticsearch connector instance.
+            if (dbConnector != null) {
+                dbConnector.close();
+            }
         }
     }
 }
-
-
-//package org.example;
-//import org.apache.http.HttpHost;
-//import org.elasticsearch.client.RestClient;
-//import org.elasticsearch.client.RestHighLevelClient;
-//
-//import java.io.IOException;
-//
-//public class Main {
-//    public static void main(String[] args) throws Exception {
-//        // Запускаем producer для заполнения очереди задач
-//        CrawlerTaskProducer.main(args);
-//
-//        // Запускаем worker для обработки задач в отдельном потоке
-//        Thread workerThread = new Thread(() -> {
-//            try {
-//                CrawlerWorker.main(args);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        workerThread.start();
-//
-//        // Запускаем consumer для обработки результатов в отдельном потоке
-//        Thread resultThread = new Thread(() -> {
-//            try {
-//                CrawlerConsumer.main(args);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        resultThread.start();
-//    }
-//}
-
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-//public class Main {
-//    public static void main(String[] args) throws Exception {
-//        // Запускаем отправителя сообщений
-//        MessageProduser.main(args);
-//
-//        // Запускаем получателя сообщений в отдельном потоке
-//        Thread receiverThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    MessageReceiver.main(args);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//        receiverThread.start();
-//    }
-//}

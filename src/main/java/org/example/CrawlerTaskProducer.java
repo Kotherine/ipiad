@@ -16,19 +16,24 @@ public class CrawlerTaskProducer {
 
     private static final String TASK_QUEUE_NAME = "taskQueue";
 
+    // Основной метод, запускающий производителя задач
     public static void main(String[] args) throws Exception {
+        // Настройка соединений RabbitMQ
         ConnectionFactory factory = new ConnectionFactory();
         factory.setUsername("kotherine");
         factory.setPassword("12345");
         factory.setVirtualHost("/");
         factory.setHost("127.0.0.1");
         factory.setPort(5672);
+
+        // Создание соединения и канала RabbitMQ
         Connection conn = factory.newConnection();
         Channel channel = conn.createChannel();
 
+        // Объявление очереди задач
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
 
-        // Получение ссылок из RSS-ленты
+        // Получение ссылок из RSS-ленты и отправка их в очередь задач
         Document rssFeed = Jsoup.connect("https://sosenskoe-omsu.ru/news/feed/").get();
         Elements items = rssFeed.select("item");
 
@@ -40,15 +45,14 @@ public class CrawlerTaskProducer {
             String message = String.format("%s;%s;%s", hash, link, title);
             channel.basicPublish("", TASK_QUEUE_NAME, null, message.getBytes());
             System.out.println("Sent '" + message + "'");
-
-//            String link = item.select("link").text();
-//            channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, link.getBytes());
         }
 
+        // Закрытие канала и соединения RabbitMQ
         channel.close();
         conn.close();
     }
 
+    // Метод для вычисления хэша MD5 для заданного текста
     private static String computeHash(String text) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
