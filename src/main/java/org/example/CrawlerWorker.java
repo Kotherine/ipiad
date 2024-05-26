@@ -1,6 +1,9 @@
 package org.example;
 
 import com.rabbitmq.client.*;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +19,10 @@ public class CrawlerWorker {
     private static final String TASK_QUEUE_NAME = "taskQueue";
     private static final String RESULT_QUEUE_NAME = "resultQueue";
     private static final HashSet<String> seenHashes = new HashSet<>();
+    private final RestHighLevelClient elasticsearchClient;
+    public CrawlerWorker(RestHighLevelClient elasticsearchClient) {
+        this.elasticsearchClient = elasticsearchClient;
+    }
 
     public static void main(String[] args) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
@@ -30,6 +37,10 @@ public class CrawlerWorker {
 
         taskChannel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
         resultChannel.queueDeclare(RESULT_QUEUE_NAME, true, false, false, null);
+
+        RestHighLevelClient elasticsearchClient = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 9200, "http")));
+
+        CrawlerWorker crawlerWorker = new CrawlerWorker(elasticsearchClient);
 
         ExecutorService executor = Executors.newFixedThreadPool(10);
 
@@ -82,6 +93,9 @@ public class CrawlerWorker {
 
                         // Подтверждаем сообщение
                         taskChannel.basicAck(envelope.getDeliveryTag(), false);
+
+                        // Сохранение документа в Elasticsearch
+                        ElasticSearchUtil.saveDocument(elasticsearchClient, hash, title, publicationDate, result, url, "Unknown Author");
                     } catch (Exception e) {
                         e.printStackTrace();
                         // В случае ошибки откладываем задачу для повторной обработки
