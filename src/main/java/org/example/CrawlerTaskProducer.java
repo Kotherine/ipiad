@@ -9,6 +9,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class CrawlerTaskProducer {
 
     private static final String TASK_QUEUE_NAME = "taskQueue";
@@ -31,10 +34,32 @@ public class CrawlerTaskProducer {
 
         for (Element item : items) {
             String link = item.select("link").text();
-            channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, link.getBytes());
+            String title = item.select("title").text();
+            String hash = computeHash(link + title);
+
+            String message = String.format("%s;%s;%s", hash, link, title);
+            channel.basicPublish("", TASK_QUEUE_NAME, null, message.getBytes());
+            System.out.println("Sent '" + message + "'");
+
+//            String link = item.select("link").text();
+//            channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, link.getBytes());
         }
 
         channel.close();
         conn.close();
+    }
+
+    private static String computeHash(String text) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(text.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : array) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -9,11 +9,13 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.HashSet;
 
 public class CrawlerWorker {
 
     private static final String TASK_QUEUE_NAME = "taskQueue";
     private static final String RESULT_QUEUE_NAME = "resultQueue";
+    private static final HashSet<String> seenHashes = new HashSet<>();
 
     public static void main(String[] args) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
@@ -34,13 +36,22 @@ public class CrawlerWorker {
         Consumer consumer = new DefaultConsumer(taskChannel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-                String url = new String(body, "UTF-8");
+                String message = new String(body, "UTF-8");
+                String[] parts = message.split(";");
+                String hash = parts[0];
+                String url = parts[1];
+                String title = parts[2];
+
+                if (seenHashes.contains(hash)) {
+                    taskChannel.basicAck(envelope.getDeliveryTag(), false);
+                    return;
+                }
+                seenHashes.add(hash);
 
                 executor.submit(() -> {
                     try {
                         // Скачиваем и парсим страницу
                         Document doc = Jsoup.connect(url).get();
-                        String title = doc.title();
                         Element pubDate = doc.selectFirst("date_rt_news");
                         String publicationDate = "";
                         if (pubDate != null) {
