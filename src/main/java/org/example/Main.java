@@ -23,6 +23,14 @@ public class Main {
             // Creating a connector instance for Elasticsearch and initializing it with the logger.
             dbConnector = new ElasticSearchUtil(logger);
 
+            // Starting the producer thread.
+            try {
+                CrawlerTaskProducer.main(args);
+            } catch (Exception e) {
+                // Handling any exceptions that occur in the worker thread.
+                logger.error("Error in worker thread: " + e.getMessage(), e);
+            }
+
             // Starting the worker thread.
             try {
                 CrawlerWorker.main(args);
@@ -50,3 +58,5 @@ public class Main {
         }
     }
 }
+
+

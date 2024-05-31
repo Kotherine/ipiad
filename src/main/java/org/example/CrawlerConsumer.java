@@ -5,75 +5,75 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 
 public class CrawlerConsumer {
 
     private static final String RESULT_QUEUE_NAME = "resultQueue";
     private static final Logger logger = LogManager.getLogger(CrawlerConsumer.class);
 
-    // Основной метод, запускающий consumer
-    public static void main(String[] args) throws Exception {
-        // Настройка соединений RabbitMQ
+    public static void main(String[] args) {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setUsername("kotherine");
-        factory.setPassword("12345");
+        factory.setUsername("Kotherina");
+        factory.setPassword("123");
         factory.setVirtualHost("/");
         factory.setHost("127.0.0.1");
         factory.setPort(5672);
 
-        // Создание соединения и канала RabbitMQ
-        Connection conn = factory.newConnection();
-        Channel channel = conn.createChannel();
+        Connection conn = null;
+        Channel channel = null;
+        ElasticSearchUtil dbConnector = null;
 
-        // Объявление очереди результатов
-        channel.queueDeclare(RESULT_QUEUE_NAME, true, false, false, null);
+        try {
+            conn = factory.newConnection();
+            channel = conn.createChannel();
 
-        // Создание объекта для взаимодействия с Elasticsearch
-        ElasticSearchUtil dbConnector = new ElasticSearchUtil(logger);
+            channel.queueDeclare(RESULT_QUEUE_NAME, true, false, false, null);
+            dbConnector = new ElasticSearchUtil(logger);
 
-        // Создание consumer для чтения результатов из очереди
-        Consumer consumer = new DefaultConsumer(channel) {
-            @Override
-            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-                // Получение сообщения из очереди
-                String message = new String(body, "UTF-8");
+            while (true) {
+                GetResponse response = channel.basicGet(RESULT_QUEUE_NAME, false);
+                if (response == null) {
+                    Thread.sleep(1000);
+                    continue;
+                }
+
+                String message = new String(response.getBody(), "UTF-8");
                 String[] parts = message.split(";");
                 String hash = parts[0];
                 String url = parts[1];
                 String title = parts[2];
                 String publicationDate = parts[3];
-                String tagsList = parts[4];
+                String category = parts[4];
 
-                // Вывод полученного сообщения
-                System.out.println("News: " + String.format("\nTitle: %s\nPublication Date: %s\nTags: %s\nURL: %s", title, publicationDate, tagsList.toString(), url) + "\n");
+                System.out.println("News: " + String.format("\nTitle: %s\nPublication Date: %s\nCategory: %s\nURL: %s", title, publicationDate, category, url) + "\n");
 
-                // Проверка существования документа в Elasticsearch
                 News existingNews = dbConnector.readSingleDocument(hash);
                 if (existingNews.getTitle().isEmpty()) {
-                    // Документ не найден, сохраняем его
-                    News news = new News(title, "", "", url, hash);
+                    News news = new News(title, publicationDate, category, url, hash);
                     dbConnector.indexSingleDocument(hash, news);
                 }
 
-                // Подтверждение обработки сообщения
-                channel.basicAck(envelope.getDeliveryTag(), false);
+                channel.basicAck(response.getEnvelope().getDeliveryTag(), false);
             }
-        };
-
-        // Старт чтения результатов из очереди
-        channel.basicConsume(RESULT_QUEUE_NAME, false, consumer);
-
-        // Вывод сообщения о начале работы consumer
-        System.out.println("Result consumer is waiting for messages. Press Ctrl+C to exit.");
-
-        // Закрытие соединения с Elasticsearch при завершении программы
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
+        } catch (Exception e) {
+            logger.error("Error in consumer: " + e.getMessage(), e);
+        } finally {
+            if (dbConnector != null) {
                 dbConnector.close();
-                conn.close();
-            } catch (IOException e) {
-                logger.error("Error while closing resources: " + e.getMessage());
             }
-        }));
+            try {
+                if (channel != null) {
+                    channel.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (IOException | TimeoutException e) {
+                logger.error("Error closing resources: " + e.getMessage(), e);
+            }
+        }
     }
 }
