@@ -7,7 +7,7 @@
 
 ### ResultQueue
 
-![resultQueue](images/taskQueue.png)
+![resultQueue](images/resultQueue.png)
 
 # Демонстрация работы программы в ElasticSearch
 ### Новости
