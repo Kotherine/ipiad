@@ -13,13 +13,26 @@ import org.elasticsearch.client.RestClient;
 
 import java.io.IOException;
 
+/**
+ * Утилитарный класс для взаимодействия с Elasticsearch.
+ */
 public class ElasticSearchUtil {
+    // Экземпляр логгера для регистрации событий
     private final Logger _logger;
+    // REST-клиент для Elasticsearch
     private final RestClient _restClient;
+    // Транспортный уровень для Elasticsearch
     private final ElasticsearchTransport _transport;
+    // Клиент Elasticsearch
     private final ElasticsearchClient _elasticClient;
+    // Имя индекса Elasticsearch
     private final String _indexName = "news";
 
+    /**
+     * Конструктор инициализирует клиент Elasticsearch с помощью указанного логгера.
+     *
+     * @param logger Экземпляр логгера для регистрации событий
+     */
     public ElasticSearchUtil(Logger logger) {
         _logger = logger;
         _restClient = RestClient.builder(HttpHost.create("http://localhost:9200")).build();
@@ -27,6 +40,12 @@ public class ElasticSearchUtil {
         _elasticClient = new ElasticsearchClient(_transport);
     }
 
+    /**
+     * Индексирует одиночный документ в Elasticsearch.
+     *
+     * @param id  ID документа
+     * @param doc Документ для индексации
+     */
     public void indexSingleDocument(String id, News doc) {
         try {
             IndexResponse response = _elasticClient.index(i -> i
@@ -42,6 +61,12 @@ public class ElasticSearchUtil {
         }
     }
 
+    /**
+     * Считывает одиночный документ из Elasticsearch по ID.
+     *
+     * @param id ID документа
+     * @return Документ, если найден, в противном случае пустой объект News
+     */
     public News readSingleDocument(String id) {
         try {
             GetResponse<News> response = _elasticClient.get(g -> g
@@ -61,6 +86,11 @@ public class ElasticSearchUtil {
         }
     }
 
+    /**
+     * Удаляет одиночный документ из Elasticsearch по ID.
+     *
+     * @param id ID документа
+     */
     public void deleteSingleDocument(String id) {
         try {
             DeleteResponse response = _elasticClient.delete(i -> i
@@ -76,6 +106,9 @@ public class ElasticSearchUtil {
         }
     }
 
+    /**
+     * Закрывает клиент Elasticsearch и связанные ресурсы.
+     */
     public void close() {
         try {
             _transport.close();

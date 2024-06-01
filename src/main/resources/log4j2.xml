@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <File name="FILEOUT" fileName="./src/main/resources/logs.log" append="false">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] [%t] - %msg%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Socket name="logstash" host="127.0.0.1" port="5001" protocol="tcp">
+            <JsonLayout compact="true" eventEol="true"/>
+        </Socket>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%m%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="FILEOUT" />
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="logstash" />
+        </Root>
+    </Loggers>
+</Configuration>

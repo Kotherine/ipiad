@@ -4,26 +4,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /*
- * The main class of the application.
+ * Главный класс приложения.
  */
 public class Main {
 
     /*
-     * Logger instance for logging application events.
+     * Экземпляр логгера для записи событий приложения.
      */
     private static final Logger logger = LogManager.getLogger(Main.class);
 
     /*
-     * The entry point of the application.
+     * Точка входа в приложение.
      */
     public static void main(String[] args) {
         ElasticSearchUtil dbConnector = null;
 
         try {
-            // Creating a connector instance for Elasticsearch and initializing it with the logger.
+            // Создание экземпляра коннектора для Elasticsearch и его инициализация логгером.
             dbConnector = new ElasticSearchUtil(logger);
 
-            // Starting the producer thread.
+            // Запуск потока-производителя.
             Thread producerThread = new Thread(() -> {
                 try {
                     CrawlerTaskProducer.main(args);
@@ -32,7 +32,7 @@ public class Main {
                 }
             });
 
-            // Starting the worker thread.
+            // Запуск потока-рабочего.
             Thread workerThread = new Thread(() -> {
                 try {
                     CrawlerWorker.main(args);
@@ -41,7 +41,7 @@ public class Main {
                 }
             });
 
-            // Starting the consumer thread.
+            // Запуск потока-потребителя.
             Thread consumerThread = new Thread(() -> {
                 try {
                     CrawlerConsumer.main(args);
@@ -50,21 +50,21 @@ public class Main {
                 }
             });
 
-            // Starting all threads
+            // Запуск всех потоков.
             producerThread.start();
             workerThread.start();
             consumerThread.start();
 
-            // Waiting for all threads to finish
+            // Ожидание завершения всех потоков.
             producerThread.join();
             workerThread.join();
             consumerThread.join();
 
         } catch (Exception e) {
-            // Handling any exceptions that occur in the main thread.
+            // Обработка любых исключений, возникающих в основном потоке.
             logger.error("Error in main: " + e.getMessage(), e);
         } finally {
-            // Closing the Elasticsearch connector instance.
+            // Закрытие экземпляра коннектора для Elasticsearch.
             if (dbConnector != null) {
                 dbConnector.close();
             }
