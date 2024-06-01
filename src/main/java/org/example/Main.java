@@ -3,6 +3,8 @@ package org.example;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 /*
  * Главный класс приложения.
  */
@@ -23,6 +25,17 @@ public class Main {
             // Создание экземпляра коннектора для Elasticsearch и его инициализация логгером.
             dbConnector = new ElasticSearchUtil(logger);
 
+//            // Вызов метода поиска
+//            List<News> results = dbConnector.searchDocuments("лето", "ДК Коммунарка", "31 мая 2024");
+//
+//            // Обработка результатов
+//            for (News news : results) {
+//                System.out.println(news);
+//            };
+//
+//            // Вызов метода агрегации
+//            dbConnector.termsAggregation();
+
             // Запуск потока-производителя.
             Thread producerThread = new Thread(() -> {
                 try {
@@ -32,7 +45,7 @@ public class Main {
                 }
             });
 
-            // Запуск потока-рабочего.
+            // Запуск потока-обработчика.
             Thread workerThread = new Thread(() -> {
                 try {
                     CrawlerWorker.main(args);

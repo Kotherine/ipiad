@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -48,6 +47,7 @@ public class CrawlerConsumer {
             // Инициализация объекта для взаимодействия с Elasticsearch
             dbConnector = new ElasticSearchUtil(logger);
 
+            // Бесконечный цикл чтения и обработки сообщений
             while (true) {
                 // Получение сообщения из очереди результатов
                 GetResponse response = channel.basicGet(RESULT_QUEUE_NAME, false);
@@ -69,11 +69,11 @@ public class CrawlerConsumer {
                 System.out.println("News: " + String.format("\nTitle: %s\nPublication Date: %s\nCategory: %s\nURL: %s", title, publicationDate, category, url));
 
                 // Проверка существования новости в Elasticsearch
-                News existingNews = dbConnector.readSingleDocument(hash);
+                News existingNews = dbConnector.readDocument(hash);
                 if (existingNews == null || existingNews.getTitle().isEmpty()) {
                     // Если новость не существует, индексируем ее в Elasticsearch
                     News news = new News(title, publicationDate, category, url, hash);
-                    dbConnector.indexSingleDocument(hash, news);
+                    dbConnector.indexDocument(hash, news);
                 }
 
                 // Подтверждение обработки сообщения

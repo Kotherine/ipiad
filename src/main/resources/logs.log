@@ -1,60 +1,20 @@
-2024-06-01 13:40:28 [INFO] [pool-6-thread-1] - [Result: Updated] Successfully saved document with id = 8247ecec2fd04df9b0e1dcfb14d3ce12 to database
-2024-06-01 13:40:28 [INFO] [pool-6-thread-1] - Published result: 8247ecec2fd04df9b0e1dcfb14d3ce12;https://sosenskoe-omsu.ru/news/73803/;Два детских сада ЖК «Прокшино» получили высокую оценку;1 июня 2024;
-2024-06-01 13:40:28 [INFO] [pool-6-thread-8] - [Result: Updated] Successfully saved document with id = 4e564535bae90edaf0829e8cdf746284 to database
-2024-06-01 13:40:28 [INFO] [pool-6-thread-8] - Published result: 4e564535bae90edaf0829e8cdf746284;https://sosenskoe-omsu.ru/news/73778/;Подведены итоги благотворительной акции;30 мая 2024;Сосенское, школа, выпускной, А101, доброе дело
-2024-06-01 13:40:28 [INFO] [pool-6-thread-2] - [Result: Updated] Successfully saved document with id = 79c12850ea2f8189238967db69eac162 to database
-2024-06-01 13:40:28 [INFO] [pool-6-thread-2] - Published result: 79c12850ea2f8189238967db69eac162;https://sosenskoe-omsu.ru/news/73794/;Лето в объективе;31 мая 2024;Сосенское, ДК Коммунарка, фотовыставка
-2024-06-01 13:40:28 [INFO] [pool-6-thread-10] - [Result: Updated] Successfully saved document with id = 59c81e913cb70f97cfef02d5a2456c1b to database
-2024-06-01 13:40:28 [INFO] [pool-6-thread-10] - Published result: 59c81e913cb70f97cfef02d5a2456c1b;https://sosenskoe-omsu.ru/news/73776/;Юные таланты Сосенского;30 мая 2024;Сосенское, школа 2070, Талантливые Дети Москвы
-2024-06-01 13:40:28 [INFO] [pool-6-thread-1] - [Result: Updated] Successfully saved document with id = 7cd378ad7650c459850746f238b6ec4a to database
-2024-06-01 13:40:28 [INFO] [pool-6-thread-1] - Published result: 7cd378ad7650c459850746f238b6ec4a;https://sosenskoe-omsu.ru/news/73775/;Радиоспектакль к юбилею А.С. Пушкина;30 мая 2024;Сосенское, школа 2070, студия Заигралия, радиоспектакль
-2024-06-01 13:40:28 [INFO] [pool-6-thread-7] - [Result: Updated] Successfully saved document with id = f35f5d6f0c2cb9e4983e601f6e3dae16 to database
-2024-06-01 13:40:28 [INFO] [pool-6-thread-7] - Published result: f35f5d6f0c2cb9e4983e601f6e3dae16;https://sosenskoe-omsu.ru/news/73787/;Ученики школы № 2070 стали обладателями ряда театральных наград;31 мая 2024;
-2024-06-01 13:40:28 [INFO] [pool-6-thread-3] - [Result: Updated] Successfully saved document with id = 214a6e804377557ae2577bcf93696493 to database
-2024-06-01 13:40:28 [INFO] [pool-6-thread-3] - Published result: 214a6e804377557ae2577bcf93696493;https://sosenskoe-omsu.ru/news/73793/;Проведите лето с книгой;31 мая 2024;Сосенское, библиотека 261, библиотека 264, акция
-2024-06-01 13:40:29 [INFO] [pool-6-thread-6] - [Result: Updated] Successfully saved document with id = 619a43ed8b78ef2e105bce14814b42e4 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-6] - Published result: 619a43ed8b78ef2e105bce14814b42e4;https://sosenskoe-omsu.ru/news/73788/;Новые пешеходные зоны будут обустроены в Сосенском;31 мая 2024;ТиНАО, Сосенское, Козлов, депутат, пешеходные зоны
-2024-06-01 13:40:29 [INFO] [pool-6-thread-9] - [Result: Updated] Successfully saved document with id = 59638f64fa2df66ebf1418346a3dcba6 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-9] - Published result: 59638f64fa2df66ebf1418346a3dcba6;https://sosenskoe-omsu.ru/news/73777/;Жители Сосенского проводят добрососедские пикники;30 мая 2024;Сосенское, добрососедство, районы А101, ЖК Скандинавия, ЖК Прокшино
-2024-06-01 13:40:29 [INFO] [pool-6-thread-4] - [Result: Updated] Successfully saved document with id = 72a840c143bfb5587cef297eb67a9b9b to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-4] - Published result: 72a840c143bfb5587cef297eb67a9b9b;https://sosenskoe-omsu.ru/news/73791/;Кадеты из Сосенского прошли в парадном строю;31 мая 2024;Сосенское, школа 338, кадетское движение, парад, Поклонная гора
-2024-06-01 13:40:29 [INFO] [pool-6-thread-5] - [Result: Updated] Successfully saved document with id = 969f02df93a3f158f399286953a037a1 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-5] - Published result: 969f02df93a3f158f399286953a037a1;https://sosenskoe-omsu.ru/news/73790/;Лето в Сосенском. Место встречи - Липовый парк;31 мая 2024;Сосенское, фестиваль, Лето в Москве, Липовый парк, праздник
-2024-06-01 13:40:29 [INFO] [pool-6-thread-8] - [Result: Updated] Successfully saved document with id = 903b1f7aafc275002b6c48af83693df0 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-8] - Published result: 903b1f7aafc275002b6c48af83693df0;https://sosenskoe-omsu.ru/news/73773/;Сергей Собянин встретился с победителями и призерами Всероссийской олимпиады школьников;30 мая 2024;Сосенское, школа 338, ВсОШ
-2024-06-01 13:40:29 [INFO] [pool-6-thread-2] - [Result: Updated] Successfully saved document with id = a193088304990629bbacd66f0388acbb to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-2] - Published result: a193088304990629bbacd66f0388acbb;https://sosenskoe-omsu.ru/news/73771/;Ученица школы №2070 посетила встречу призеров и победителей всероссийской олимпиады школьников;30 мая 2024;ТиНАО, Новая Москва, Сосенское, школа, олимпиада, победители
-2024-06-01 13:40:29 [INFO] [pool-6-thread-10] - [Result: Updated] Successfully saved document with id = 5d6b0c23c7619125745c4d21327f2c06 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-10] - Published result: 5d6b0c23c7619125745c4d21327f2c06;https://sosenskoe-omsu.ru/news/73763/;Добрый марафон;29 мая 2024;Сосенское, школа 338, Школы Москвы
-2024-06-01 13:40:29 [INFO] [pool-6-thread-1] - [Result: Updated] Successfully saved document with id = 2c96da0435bf5086f4cfec127d9bb350 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-1] - Published result: 2c96da0435bf5086f4cfec127d9bb350;https://sosenskoe-omsu.ru/news/73762/;Для юных жителей Сосенского открылся мир будущих технологий;29 мая 2024;сенское, школа 2070, ДОНМ
-2024-06-01 13:40:29 [INFO] [pool-6-thread-7] - [Result: Updated] Successfully saved document with id = 707094bad9851a4db5ca6bb004234d28 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-7] - Published result: 707094bad9851a4db5ca6bb004234d28;https://sosenskoe-omsu.ru/news/73761/;Поговорим о литературе;29 мая 2024;Сосенское, школа 2070, ДОНМ
-2024-06-01 13:40:29 [INFO] [pool-6-thread-3] - [Result: Updated] Successfully saved document with id = 5de9fa430d42112407e9110b646f6f40 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-3] - Published result: 5de9fa430d42112407e9110b646f6f40;https://sosenskoe-omsu.ru/news/73760/;Театральная мастерская «Вдохновения!» завершила сезон;29 мая 2024;Сосенское, школа 2070, ДОНМ
-2024-06-01 13:40:29 [INFO] [pool-6-thread-6] - [Result: Updated] Successfully saved document with id = 6499bc43b5ddca48aa9821c2037aaafe to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-6] - Published result: 6499bc43b5ddca48aa9821c2037aaafe;https://sosenskoe-omsu.ru/news/73759/;ДК «Коммунарка» приглашает на отчетный концерт «Подмосковные вечера»;29 мая 2024;Сосенское, ДК Коммунарка, концерт
-2024-06-01 13:40:29 [INFO] [pool-6-thread-4] - [Result: Updated] Successfully saved document with id = 9aeb02ea1381b00e94b3b3763ed928db to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-4] - Published result: 9aeb02ea1381b00e94b3b3763ed928db;https://sosenskoe-omsu.ru/news/73756/;Праздничные мероприятия пройдут в Доме культуры «Коммунарка» в честь Международного дня защиты детей;29 мая 2024;ТиНАО, Новая Москва, Сосенское, праздник, дети, мероприятие
-2024-06-01 13:40:29 [INFO] [pool-6-thread-9] - [Result: Updated] Successfully saved document with id = 86680f70617e32459200216381a4d222 to database
-2024-06-01 13:40:29 [INFO] [pool-6-thread-9] - Published result: 86680f70617e32459200216381a4d222;https://sosenskoe-omsu.ru/news/73757/;Первый забег марафона «Два сердца вместе» прошел в школе №338;29 мая 2024;ТиНАО, Новая Москва, Сосенское, марафон, школа, мероприятие
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 8247ecec2fd04df9b0e1dcfb14d3ce12 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 4e564535bae90edaf0829e8cdf746284 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 79c12850ea2f8189238967db69eac162 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 59c81e913cb70f97cfef02d5a2456c1b from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 7cd378ad7650c459850746f238b6ec4a from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = f35f5d6f0c2cb9e4983e601f6e3dae16 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 214a6e804377557ae2577bcf93696493 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 619a43ed8b78ef2e105bce14814b42e4 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 59638f64fa2df66ebf1418346a3dcba6 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 72a840c143bfb5587cef297eb67a9b9b from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 969f02df93a3f158f399286953a037a1 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 903b1f7aafc275002b6c48af83693df0 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = a193088304990629bbacd66f0388acbb from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 5d6b0c23c7619125745c4d21327f2c06 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 2c96da0435bf5086f4cfec127d9bb350 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 707094bad9851a4db5ca6bb004234d28 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 5de9fa430d42112407e9110b646f6f40 from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 6499bc43b5ddca48aa9821c2037aaafe from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 9aeb02ea1381b00e94b3b3763ed928db from database
-2024-06-01 13:40:29 [INFO] [Thread-2] - [Result: Found] Successfully got document with id = 86680f70617e32459200216381a4d222 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 59638f64fa2df66ebf1418346a3dcba6 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = f196a6098ed127457f3b0e94ce5780ce from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 4e564535bae90edaf0829e8cdf746284 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = f35f5d6f0c2cb9e4983e601f6e3dae16 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 619a43ed8b78ef2e105bce14814b42e4 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 969f02df93a3f158f399286953a037a1 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 72a840c143bfb5587cef297eb67a9b9b from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 214a6e804377557ae2577bcf93696493 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 8247ecec2fd04df9b0e1dcfb14d3ce12 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 79c12850ea2f8189238967db69eac162 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 7cd378ad7650c459850746f238b6ec4a from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 5d6b0c23c7619125745c4d21327f2c06 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 903b1f7aafc275002b6c48af83693df0 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 59c81e913cb70f97cfef02d5a2456c1b from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 5de9fa430d42112407e9110b646f6f40 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = a193088304990629bbacd66f0388acbb from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 6499bc43b5ddca48aa9821c2037aaafe from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 707094bad9851a4db5ca6bb004234d28 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 86680f70617e32459200216381a4d222 from database
+2024-06-01 19:06:11 [INFO] [main] - [Result: Found] Successfully got document with id = 2c96da0435bf5086f4cfec127d9bb350 from database

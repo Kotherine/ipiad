@@ -22,6 +22,9 @@ public class CrawlerTaskProducer {
 
     /**
      * Точка входа в приложение.
+     *
+     * @param args Аргументы командной строки
+     * @throws Exception Исключение, если что-то пошло не так при выполнении
      */
     public static void main(String[] args) throws Exception {
         // Создание фабрики соединений RabbitMQ
@@ -61,7 +64,7 @@ public class CrawlerTaskProducer {
     /**
      * Вычисляет хэш строки с использованием алгоритма MD5.
      *
-     * @param text Исходная строка
+     * @param text Исходная строка для вычисления хэша
      * @return Хэш строки
      */
     private static String computeHash(String text) {
@@ -82,4 +85,3 @@ public class CrawlerTaskProducer {
         }
     }
 }
-

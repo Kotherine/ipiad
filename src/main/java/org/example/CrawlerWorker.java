@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Рабочий, обрабатывающий задачи веб-сканера.
+ * Обработчик задач веб-сканера.
  */
 public class CrawlerWorker {
 
@@ -65,6 +65,7 @@ public class CrawlerWorker {
             // Инициализация объекта для взаимодействия с Elasticsearch
             dbConnector = new ElasticSearchUtil(logger);
 
+            // Бесконечный цикл обработки задач
             while (true) {
                 // Получение задачи из очереди задач
                 GetResponse response = taskChannel.basicGet(TASK_QUEUE_NAME, false);
@@ -120,7 +121,7 @@ public class CrawlerWorker {
 
                         // Создание объекта новости и индексация его в Elasticsearch
                         News news = new News(title, publicationDate, tagsList.toString(), url, hash);
-                        finalDbConnector.indexSingleDocument(hash, news);
+                        finalDbConnector.indexDocument(hash, news);
 
                         // Формирование результата и отправка его в очередь результатов
                         String result = String.format("%s;%s;%s;%s;%s", hash, url, title, publicationDate, tagsList.toString());
