@@ -24,28 +24,41 @@ public class Main {
             dbConnector = new ElasticSearchUtil(logger);
 
             // Starting the producer thread.
-            try {
-                CrawlerTaskProducer.main(args);
-            } catch (Exception e) {
-                // Handling any exceptions that occur in the worker thread.
-                logger.error("Error in worker thread: " + e.getMessage(), e);
-            }
+            Thread producerThread = new Thread(() -> {
+                try {
+                    CrawlerTaskProducer.main(args);
+                } catch (Exception e) {
+                    logger.error("Error in producer thread: " + e.getMessage(), e);
+                }
+            });
 
             // Starting the worker thread.
-            try {
-                CrawlerWorker.main(args);
-            } catch (Exception e) {
-                // Handling any exceptions that occur in the worker thread.
-                logger.error("Error in worker thread: " + e.getMessage(), e);
-            }
+            Thread workerThread = new Thread(() -> {
+                try {
+                    CrawlerWorker.main(args);
+                } catch (Exception e) {
+                    logger.error("Error in worker thread: " + e.getMessage(), e);
+                }
+            });
 
             // Starting the consumer thread.
-            try {
-                CrawlerConsumer.main(args);
-            } catch (Exception e) {
-                // Handling any exceptions that occur in the consumer thread.
-                logger.error("Error in consumer thread: " + e.getMessage(), e);
-            }
+            Thread consumerThread = new Thread(() -> {
+                try {
+                    CrawlerConsumer.main(args);
+                } catch (Exception e) {
+                    logger.error("Error in consumer thread: " + e.getMessage(), e);
+                }
+            });
+
+            // Starting all threads
+            producerThread.start();
+            workerThread.start();
+            consumerThread.start();
+
+            // Waiting for all threads to finish
+            producerThread.join();
+            workerThread.join();
+            consumerThread.join();
 
         } catch (Exception e) {
             // Handling any exceptions that occur in the main thread.
@@ -58,5 +71,3 @@ public class Main {
         }
     }
 }
-
-

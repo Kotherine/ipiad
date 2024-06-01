@@ -5,8 +5,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,7 +54,7 @@ public class CrawlerWorker {
                     continue;
                 }
 
-                String message = new String(response.getBody(), "UTF-8");
+                String message = new String(response.getBody(), StandardCharsets.UTF_8);
                 String[] parts = message.split(";");
                 String hash = parts[0];
                 String url = parts[1];
@@ -69,14 +72,35 @@ public class CrawlerWorker {
                 executor.submit(() -> {
                     try {
                         Document doc = Jsoup.connect(url).get();
-                        String publicationDate = doc.select("pubDate").text();
-                        String category = doc.select("category").text();
+                        Element pubDate = doc.selectFirst("date_rt_news");
+                        String publicationDate = "";
+                        if (pubDate != null) {
+                            publicationDate = pubDate.text();
+                        } else {
+                            Elements pubDates = doc.getElementsByClass("date_rt_news");
+                            for (Element date : pubDates) {
+                                publicationDate = date.text();
+                            }
+                        }
 
-                        News news = new News(title, publicationDate, category, url, hash);
+                        Element newsTagsDiv = doc.selectFirst("div.news_tags");
+                        StringBuilder tagsList = new StringBuilder();
+                        if (newsTagsDiv != null) {
+                            Elements tags = newsTagsDiv.select("a");
+                            for (Element tag : tags) {
+                                if (tagsList.length() > 0) {
+                                    tagsList.append(", ");
+                                }
+                                tagsList.append(tag.text());
+                            }
+                        }
+
+                        News news = new News(title, publicationDate, tagsList.toString(), url, hash);
                         finalDbConnector.indexSingleDocument(hash, news);
 
-                        String result = String.format("%s;%s;%s;%s;%s", hash, url, title, publicationDate, category);
-                        finalResultChannel.basicPublish("", RESULT_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, result.getBytes("UTF-8"));
+                        String result = String.format("%s;%s;%s;%s;%s", hash, url, title, publicationDate, tagsList.toString());
+                        finalResultChannel.basicPublish("", RESULT_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, result.getBytes(StandardCharsets.UTF_8));
+                        logger.info("Published result: " + result);
                     } catch (IOException e) {
                         logger.error("Error processing message: " + e.getMessage(), e);
                     } finally {
@@ -91,7 +115,7 @@ public class CrawlerWorker {
         } catch (Exception e) {
             logger.error("Error in worker: " + e.getMessage(), e);
         } finally {
-            // Ensure resources are closed
+            // Closing resources in a finally block to ensure they are closed on exit
             executor.shutdown();
             try {
                 if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
@@ -104,7 +128,7 @@ public class CrawlerWorker {
                 executor.shutdownNow();
                 Thread.currentThread().interrupt();
             }
-        }
+
             if (dbConnector != null) {
                 dbConnector.close();
             }
@@ -122,4 +146,5 @@ public class CrawlerWorker {
                 logger.error("Error closing resources: " + e.getMessage(), e);
             }
         }
+    }
 }

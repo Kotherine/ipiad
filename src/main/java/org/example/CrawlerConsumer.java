@@ -5,8 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class CrawlerConsumer {
@@ -31,6 +31,7 @@ public class CrawlerConsumer {
             channel = conn.createChannel();
 
             channel.queueDeclare(RESULT_QUEUE_NAME, true, false, false, null);
+
             dbConnector = new ElasticSearchUtil(logger);
 
             while (true) {
@@ -40,18 +41,18 @@ public class CrawlerConsumer {
                     continue;
                 }
 
-                String message = new String(response.getBody(), "UTF-8");
-                String[] parts = message.split(";");
+                String message = new String(response.getBody(), StandardCharsets.UTF_8);
+                String[] parts = message.split(";", -1);
                 String hash = parts[0];
                 String url = parts[1];
                 String title = parts[2];
                 String publicationDate = parts[3];
                 String category = parts[4];
 
-                System.out.println("News: " + String.format("\nTitle: %s\nPublication Date: %s\nCategory: %s\nURL: %s", title, publicationDate, category, url) + "\n");
+                System.out.println("News: " + String.format("\nTitle: %s\nPublication Date: %s\nCategory: %s\nURL: %s", title, publicationDate, category, url));
 
                 News existingNews = dbConnector.readSingleDocument(hash);
-                if (existingNews.getTitle().isEmpty()) {
+                if (existingNews == null || existingNews.getTitle().isEmpty()) {
                     News news = new News(title, publicationDate, category, url, hash);
                     dbConnector.indexSingleDocument(hash, news);
                 }
@@ -61,10 +62,10 @@ public class CrawlerConsumer {
         } catch (Exception e) {
             logger.error("Error in consumer: " + e.getMessage(), e);
         } finally {
-            if (dbConnector != null) {
-                dbConnector.close();
-            }
             try {
+                if (dbConnector != null) {
+                    dbConnector.close();
+                }
                 if (channel != null) {
                     channel.close();
                 }
